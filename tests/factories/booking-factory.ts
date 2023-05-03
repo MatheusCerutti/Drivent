@@ -7,7 +7,7 @@ type CreateBookingParams = {
   userId: number;
 };
 
-export function createBooking({ roomId, userId }: CreateBookingParams) {
+export async function createBooking({ roomId, userId }: CreateBookingParams) {
   return prisma.booking.create({
     data: {
       userId,
@@ -16,7 +16,7 @@ export function createBooking({ roomId, userId }: CreateBookingParams) {
   });
 }
 
-export function getBookingReturn() {
+export async function getBookingReturn() {
   const booking: Booking & { Room: Room } = {
     id: 1,
     userId: null,
