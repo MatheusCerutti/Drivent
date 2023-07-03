@@ -11,12 +11,22 @@ async function getAddressFromCEP(cep: string) {
   // FIXME: está com CEP fixo!
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
-  if (!result.data) {
+  if (!result.data || result.data.erro) {
     throw notFoundError();
   }
 
+  const {logradouro, complemento, bairro, localidade, uf} = result.data;
+
+  const address = {
+    bairro,
+    cidade:localidade,
+    uf,
+    complemento,
+    logradouro
+  }
+
   // FIXME: não estamos interessados em todos os campos
-  return result.data;
+  return address;
 }
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
