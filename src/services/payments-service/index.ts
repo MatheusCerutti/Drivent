@@ -42,4 +42,6 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
   return payment;
 }
 
-export default { getPaymentByTicketId, paymentProcess };
+const paymentsService = { getPaymentByTicketId, paymentProcess };
+
+export default paymentsService;
