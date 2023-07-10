@@ -4,17 +4,25 @@ import { invalidDataError, notFoundError } from '@/errors';
 import addressRepository, { CreateAddressParams } from '@/repositories/address-repository';
 import enrollmentRepository, { CreateEnrollmentParams } from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
+import { AddressEnrollment } from '@/protocols';
 
+<<<<<<< HEAD
 // TODO - Receber o CEP por parâmetro nesta função.
 async function getAddressFromCEP(cep: string) {
 
   // FIXME: está com CEP fixo!
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
+=======
+async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
+  const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
+
+>>>>>>> 16c5480c3d328c63006f5f18b3b42aa9a36b220a
   if (!result.data || result.data.erro) {
     throw notFoundError();
   }
 
+<<<<<<< HEAD
   const {logradouro, complemento, bairro, localidade, uf} = result.data;
 
   const address = {
@@ -26,6 +34,18 @@ async function getAddressFromCEP(cep: string) {
   }
 
   // FIXME: não estamos interessados em todos os campos
+=======
+  const { bairro, localidade, uf, complemento, logradouro } = result.data;
+
+  const address: AddressEnrollment = {
+    bairro,
+    cidade: localidade,
+    uf,
+    complemento,
+    logradouro,
+  };
+
+>>>>>>> 16c5480c3d328c63006f5f18b3b42aa9a36b220a
   return address;
 }
 
@@ -57,7 +77,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   const enrollment = exclude(params, 'address');
   const address = getAddressForUpsert(params.address);
 
-  // TODO - Verificar se o CEP é válido antes de associar ao enrollment.
+  await getAddressFromCEP(address.cep);
 
   try {
     await getAddressFromCEP(address.cep);
