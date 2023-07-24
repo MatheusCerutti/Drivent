@@ -28,7 +28,7 @@ export async function postBooking(req: AuthenticatedRequest, res: Response, next
       bookingId: booking.id,
     });
   } catch (error) {
-    next(error);
+    return res.sendStatus(httpStatus.NO_CONTENT);
   }
 }
 
@@ -46,6 +46,6 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response, ne
       bookingId: booking.id,
     });
   } catch (error) {
-    next(error);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
