@@ -11,4 +11,6 @@ ticketsRouter
   .get('/', getTickets)
   .post('/', validateBody(ticketsSchema), createTicket);
 
+
 export { ticketsRouter };
+

@@ -13,23 +13,6 @@ export type ViaCEPAddress = {
   uf: string;
 };
 
-export type ViaCEPAddressError = {
-  error: boolean;
-};
-
-export type ViaCEPAddressResponse = {
-  cep: string;
-  logradouro: string;
-  complemento: string;
-  bairro: string;
-  localidade: string;
-  uf: string;
-  ibge: string;
-  gia: string;
-  ddd: string;
-  siafi: string;
-};
-
 export type AddressEnrollment = {
   logradouro: string;
   complemento: string;
@@ -57,4 +40,10 @@ export type CardPaymentParams = {
   cvv: number;
 };
 
+
 export type PaymentParams = Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>;
+
+export type InputTicketBody = {
+  ticketTypeId: number;
+};
+

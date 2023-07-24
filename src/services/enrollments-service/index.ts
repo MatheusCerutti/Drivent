@@ -19,7 +19,7 @@ async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
 
 >>>>>>> 16c5480c3d328c63006f5f18b3b42aa9a36b220a
   if (!result.data || result.data.erro) {
-    throw notFoundError();
+    throw notFoundError(); // lança um erro para quem chamou essa função!
   }
 
 <<<<<<< HEAD
@@ -77,7 +77,11 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   const enrollment = exclude(params, 'address');
   const address = getAddressForUpsert(params.address);
 
-  await getAddressFromCEP(address.cep);
+  try {
+    await getAddressFromCEP(address.cep);
+  } catch {
+    throw invalidDataError(['invalid CEP']);
+  }
 
   try {
     await getAddressFromCEP(address.cep);
