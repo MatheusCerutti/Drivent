@@ -20,7 +20,6 @@ import {
   bookingRouter,
 } from '@/routers';
 
-
 const app = express();
 app
   .use(cors())
