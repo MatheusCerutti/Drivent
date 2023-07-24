@@ -40,8 +40,10 @@ export type CardPaymentParams = {
   cvv: number;
 };
 
+
 export type PaymentParams = Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>;
 
 export type InputTicketBody = {
   ticketTypeId: number;
 };
+
