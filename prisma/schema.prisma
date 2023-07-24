@@ -143,8 +143,3 @@ model Teste {
   id    Int    @id @default(autoincrement())
   name  String
 }
-
-model Teste {
-  id    Int    @id @default(autoincrement())
-  name  String
-}
