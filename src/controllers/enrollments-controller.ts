@@ -1,9 +1,9 @@
-import { NextFunction, Response } from 'express';
+import { Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import enrollmentsService from '@/services/enrollments-service';
 
-export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
 
   try {
@@ -11,11 +11,11 @@ export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Respon
 
     return res.status(httpStatus.OK).send(enrollmentWithAddress);
   } catch (error) {
-    next(error);
+    return res.sendStatus(httpStatus.NO_CONTENT);
   }
 }
 
-export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response) {
   try {
     await enrollmentsService.createOrUpdateEnrollmentWithAddress({
       ...req.body,
@@ -24,17 +24,19 @@ export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, re
 
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
-    next(error);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
 
-export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response) {
   const { cep } = req.query as Record<string, string>;
 
   try {
     const address = await enrollmentsService.getAddressFromCEP(cep);
     res.status(httpStatus.OK).send(address);
   } catch (error) {
-    next(error);
+    if (error.name === 'NotFoundError') {
+      return res.sendStatus(httpStatus.NO_CONTENT);
+    }
   }
 }
